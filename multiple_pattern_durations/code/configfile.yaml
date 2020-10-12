@@ -10,18 +10,18 @@ rate : 10
 # Length of data
 t_stop : 10
 # Number of spiketrains
-n : 100
+n : 50
 # SPADE parameters
 # PSF parameters
 # Number of surrogates
-n_surr : 5000
+n_surr : 2000
 # Significance level
 alpha : 0.05
 # Spectrum
-spectra : ['#', '3d#']
+spectra : ['3d#']
 # PSR parameters
 psr_param : [0,0,0]
 # Statistical correction
-correction : 'fdr'
+correction : 'bonf'
 # Minimum number of occurrences
 min_occ : 2

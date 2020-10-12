@@ -27,7 +27,8 @@ if __name__ == '__main__':
                          encoding='latin1').item()['params']
     lengths = param_dict['lengths']
     binsize = param_dict['binsize']
-    winlens = [int(l/binsize)+1 for l in lengths]
+    #winlens = [int(l/binsize)+1 for l in lengths]
+    winlens = [4]
     print(winlens)
     # Filtering parameters
     # Load general parameters
@@ -68,7 +69,7 @@ if __name__ == '__main__':
         # Computing non-significant entries of the spectrum applying
         # the statistical correction
         ns_sgnt = spade.test_signature_significance(
-            pval_spectrum, alpha, corr=correction, report='e',
+            pval_spectrum, alpha, corr=correction, report='non_significant',
             spectrum=spectrum)
     concepts_psf = list(filter(
         lambda c: spade._pattern_spectrum_filter(

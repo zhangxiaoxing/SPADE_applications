@@ -14,10 +14,8 @@ alpha = config['alpha']
 spectra = config['spectra']
 
 # Deriving the window lengths to use 
-lengths = list(
-    range(0,(winlen +1) * int(binsize.magnitude), xi * int(
-        binsize.magnitude))) * binsize.units
-winlens = [int(l/binsize)+1 for l in lengths]
+lengths = [3]
+winlens = [4]
 
 # Rule collecting all the outputs    
 rule all:
