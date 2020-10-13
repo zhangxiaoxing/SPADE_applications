@@ -2,34 +2,42 @@ import elephant.spade as spade
 import numpy as np
 import os
 import argparse
+import neo
+import quantities as pq
 from mpi4py import MPI  # for parallelized routines
 import yaml
 from utils import mkdirp, split_path
 from yaml import Loader
 
 if __name__ == '__main__':
-    data_file = np.load('../data/art_data.npy', encoding='latin1').item()
+    r=neo.io.NeoMatlabIO(filename='../data/spkt_23_4.mat')
+    bl=r.read_block()
+    data=bl.segments[0].spiketrains
 
-    data = data_file['data']
-    data_param = data_file['params']
+    #data_param = data_file['params']
 
-    parser = argparse.ArgumentParser(description='Compute spade on artificial data '
-                                                 'for the given winlen and spectrum parameters')
-    parser.add_argument('winlen', metavar='winlen', type=int,
-                       help='winlen parameter of the spade function')
-    parser.add_argument('spectrum', metavar='spectrum', type=str,
-                       help='spectrum parameter of the spade function')
-    args = parser.parse_args()
+#    parser = argparse.ArgumentParser(description='Compute spade on artificial data '
+#                                                 'for the given winlen and spectrum parameters')
+#    parser.add_argument('winlen', metavar='winlen', type=int,
+#                       help='winlen parameter of the spade function')
+#    parser.add_argument('spectrum', metavar='spectrum', type=str,
+#                       help='spectrum parameter of the spade function')
+#    args = parser.parse_args()
 
-    min_spikes = data_param['xi']
-    max_spikes = data_param['xi']
+    #    min_spikes = data_param['xi']
+    #    max_spikes = data_param['xi']
+    min_spikes = 10 
+    max_spikes = 10
 
     with open("configfile.yaml", 'r') as stream:
         config = yaml.load(stream, Loader=Loader)
     n_surr = config['n_surr']
-    binsize = data_param['binsize']
-    winlen = args.winlen
-    spectrum = args.spectrum
+    #binsize = data_param['binsize']
+    binsize = 4 * pq.ms
+    #winlen = args.winlen
+    winlen =  10
+    #spectrum = args.spectrum
+    spectrum = '3d#'
     param = {'winlen': winlen,
              'n_surr': n_surr,
              'binsize': binsize,
@@ -52,6 +60,9 @@ if __name__ == '__main__':
                             max_spikes=max_spikes,
                             spectrum=spectrum,
                             alpha=1,
+                            min_occ=2,
+                            min_neu=10,
+                            #output_format='patterns',
                             psr_param=None)
 
     # Storing data
@@ -62,4 +73,4 @@ if __name__ == '__main__':
         path_temp = path_temp + '/' + folder
         mkdirp(path_temp)
 
-    np.save(res_path + '/art_data_results.npy', [spade_res, param])
+    np.save(res_path + '/data_results.npy', [spade_res, param])

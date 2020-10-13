@@ -1,5 +1,6 @@
 import numpy as np
 import elephant.spade as spade
+import quantities as pq
 import argparse
 import yaml
 from yaml import Loader
@@ -23,12 +24,8 @@ def _pattern_spectrum_filter(patterns, ns_signature, spectrum, winlen):
 
 if __name__ == '__main__':
     # Load parameters dictionary
-    param_dict = np.load('../data/art_data.npy',
-                         encoding='latin1').item()['params']
-    lengths = param_dict['lengths']
-    binsize = param_dict['binsize']
-    #winlens = [int(l/binsize)+1 for l in lengths]
-    winlens = [4]
+    binsize = 4 * pq.ms 
+    winlens = [10]
     print(winlens)
     # Filtering parameters
     # Load general parameters
@@ -53,7 +50,7 @@ if __name__ == '__main__':
     # Filtering parameters for the different window length
     # Loading result
     res_spade, params = \
-        np.load('../results/{}/winlen{}/art_data_results.npy'.format(spectrum,
+        np.load('../results/{}/winlen{}/data_results.npy'.format(spectrum,
                                                                      winlen),
                 encoding='latin1')
     concepts = res_spade['patterns']

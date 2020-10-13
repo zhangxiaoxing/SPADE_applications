@@ -1,66 +1,34 @@
 configfile:'configfile.yaml'
-
-import numpy as np
 import quantities as pq
 
 # Loading parameters
-xi = config['xi']
-winlen =config['winlen']
-binsize = config['binsize'] * pq.ms
-rate = config['rate'] * pq.Hz
-t_stop = config['t_stop'] * pq.s
-n = config['n']
-alpha = config['alpha']
 spectra = config['spectra']
 
 # Deriving the window lengths to use 
-lengths = [3]
-winlens = [4]
+winlens = [10]
 
 # Rule collecting all the outputs    
 rule all:
     input:
         expand('../results/{spectrum}/winlen{w}/filtered_patterns.npy', spectrum=spectra, w=winlens) +
-        expand('../results/{spectrum}/winlen{w}/art_data_results.npy', spectrum=spectra, w=winlens) +
-        ['../figures/raster_patt_count_spectra.eps'] +
-        ['../figures/pvalues_table.npy']
+        expand('../results/{spectrum}/winlen{w}/data_results.npy', spectrum=spectra, w=winlens) 
 
-# Rule to generate the artificial data
-rule generate_data:
-    input:
-        configfile = 'configfile.yaml',
-        script = 'generate_art_data.py'
-    output:
-        "../data/art_data.npy"
-    shell:
-        "python {input.script}"
 
 # Rule to analyze the data (no filtering applied yet)
 rule analyze_data:
     input:
-        data = "../data/art_data.npy",
         script = 'spade_analysis.py'
     output:
-        '../results/{spectrum}/winlen{w}/art_data_results.npy'
+        '../results/{spectrum}/winlen{w}/data_results.npy'
     shell:
-        "mpirun python  {input.script} {wildcards.w} '{wildcards.spectrum}'"
+        "mpirun python  {input.script} "
 
 # Rule to filter the data using Pattern Spectrum Filtering
 rule filter_results:
     input:
-        results = '../results/{spectrum}/winlen{w}/art_data_results.npy',
+        results = '../results/{spectrum}/winlen{w}/data_results.npy',
         script = 'filter_results.py'
     output:
         '../results/{spectrum}/winlen{w}/filtered_patterns.npy'
     shell:
         "python {input.script} '{wildcards.spectrum}' '{wildcards.w}'"
-
-# Rule to produce figure
-rule plot:
-    input:
-        results = expand('../results/{spectrum}/winlen{w}/filtered_patterns.npy', spectrum=spectra, w=winlens),
-        script = 'plot_res.py'
-    output:
-        ['../figures/raster_patt_count_spectra.eps', '../figures/pvalues_table.npy']
-    shell:
-        "python {input.script}"
