@@ -10,7 +10,7 @@ from utils import mkdirp, split_path
 from yaml import Loader
 
 if __name__ == '__main__':
-    r=neo.io.NeoMatlabIO(filename='../data/spkt_23_4.mat')
+    r=neo.io.NeoMatlabIO(filename='../data/spkt_46_6.mat')
     bl=r.read_block()
     data=bl.segments[0].spiketrains
 
@@ -27,13 +27,13 @@ if __name__ == '__main__':
     #    min_spikes = data_param['xi']
     #    max_spikes = data_param['xi']
     min_spikes = 10 
-    max_spikes = 10
+    max_spikes = 12
 
     with open("configfile.yaml", 'r') as stream:
         config = yaml.load(stream, Loader=Loader)
     n_surr = config['n_surr']
     #binsize = data_param['binsize']
-    binsize = 4 * pq.ms
+    binsize = 6 * pq.ms
     #winlen = args.winlen
     winlen =  10
     #spectrum = args.spectrum

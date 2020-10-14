@@ -10,6 +10,6 @@ spectra : ['3d#']
 # PSR parameters
 psr_param : [0,0,0]
 # Statistical correction
-correction : 'bonf'
+correction : 'bonferroni'
 # Minimum number of occurrences
-min_occ : 4
+min_occ : 2

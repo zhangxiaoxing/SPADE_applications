@@ -5,7 +5,7 @@ import quantities as pq
 spectra = config['spectra']
 
 # Deriving the window lengths to use 
-winlens = [10]
+winlens = [6]
 
 # Rule collecting all the outputs    
 rule all:

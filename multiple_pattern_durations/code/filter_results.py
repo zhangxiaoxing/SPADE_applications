@@ -24,9 +24,9 @@ def _pattern_spectrum_filter(patterns, ns_signature, spectrum, winlen):
 
 if __name__ == '__main__':
     # Load parameters dictionary
-    binsize = 4 * pq.ms 
-    winlens = [10]
-    print(winlens)
+    binsize = 6 * pq.ms 
+    winlen = 10
+    print(winlen)
     # Filtering parameters
     # Load general parameters
     with open("configfile.yaml", 'r') as stream:
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         # Computing non-significant entries of the spectrum applying
         # the statistical correction
         ns_sgnt = spade.test_signature_significance(
-            pval_spectrum, alpha, corr=correction, report='non_significant',
+            pval_spectrum, concepts, alpha, winlen, corr=correction, report='non_significant',
             spectrum=spectrum)
     concepts_psf = list(filter(
         lambda c: spade._pattern_spectrum_filter(
@@ -81,17 +81,19 @@ if __name__ == '__main__':
         if 0 < alpha < 1 and n_surr > 0:
             concepts_psr = spade.pattern_set_reduction(concepts_psf, ns_sgnt,
                                                        winlen=winlen,
-                                                       h=psr_param[0],
-                                                       k=psr_param[1],
-                                                       l=psr_param[2],
+						       spectrum=spectrum,
+                                                       h_subset_filtering=psr_param[0],
+                                                       k_superset_filtering=psr_param[1],
+                                                       l_covered_spikes=psr_param[2],
                                                        min_spikes=min_spikes,
                                                        min_occ=min_occ)
         else:
             concepts_psr = spade.pattern_set_reduction(concepts_psf, [],
                                                        winlen=winlen,
-                                                       h=psr_param[0],
-                                                       k=psr_param[1],
-                                                       l=psr_param[2],
+						       spectrum=spectrum,
+                                                       h_subset_filtering=psr_param[0],
+                                                       k_superset_filtering=psr_param[1],
+                                                       l_covered_spikes=psr_param[2],
                                                        min_spikes=min_spikes,
                                                        min_occ=min_occ)
         patterns = spade.concept_output_to_patterns(
