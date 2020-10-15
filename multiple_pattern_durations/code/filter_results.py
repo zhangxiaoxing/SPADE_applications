@@ -24,8 +24,8 @@ def _pattern_spectrum_filter(patterns, ns_signature, spectrum, winlen):
 
 if __name__ == '__main__':
     # Load parameters dictionary
-    binsize = 6 * pq.ms 
-    winlen = 10
+    binsize = 4 * pq.ms 
+    winlen = 5
     print(winlen)
     # Filtering parameters
     # Load general parameters
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     res_spade, params = \
         np.load('../results/{}/winlen{}/data_results.npy'.format(spectrum,
                                                                      winlen),
-                encoding='latin1')
+                encoding='latin1',allow_pickle=True)
     concepts = res_spade['patterns']
     pval_spectrum  = res_spade['pvalue_spectrum']
     # SPADE parameters

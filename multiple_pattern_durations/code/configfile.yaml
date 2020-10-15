@@ -2,7 +2,7 @@
 # SPADE parameters
 # PSF parameters
 # Number of surrogates
-n_surr : 100
+n_surr : 1000
 # Significance level
 alpha : 0.05
 # Spectrum
@@ -12,4 +12,4 @@ psr_param : [0,0,0]
 # Statistical correction
 correction : 'bonferroni'
 # Minimum number of occurrences
-min_occ : 2
+min_occ : 4 
