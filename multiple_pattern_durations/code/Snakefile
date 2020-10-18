@@ -2,16 +2,16 @@ configfile:'configfile.yaml'
 import quantities as pq
 
 # Loading parameters
-spectra = config['spectra']
+sess_ids = range(113) 
 
 # Deriving the window lengths to use 
-winlens = [5]
+winlens = [4]
 
 # Rule collecting all the outputs    
 rule all:
     input:
-        expand('../results/{spectrum}/winlen{w}/filtered_patterns.npy', spectrum=spectra, w=winlens) +
-        expand('../results/{spectrum}/winlen{w}/data_results.npy', spectrum=spectra, w=winlens) 
+        expand('../results/{session_id}/winlen{w}/filtered_patterns.npy', session_id=sess_ids, w=winlens) +
+        expand('../results/{session_id}/winlen{w}/data_results.npy', session_id=sess_ids, w=winlens) 
 
 
 # Rule to analyze the data (no filtering applied yet)
@@ -19,16 +19,16 @@ rule analyze_data:
     input:
         script = 'spade_analysis.py'
     output:
-        '../results/{spectrum}/winlen{w}/data_results.npy'
+        '../results/{session_id}/winlen{w}/data_results.npy'
     shell:
-        "mpirun python  {input.script} "
+        "mpirun python  {input.script} '{wildcards.w}' '{wildcards.session_id}' "
 
 # Rule to filter the data using Pattern Spectrum Filtering
 rule filter_results:
     input:
-        results = '../results/{spectrum}/winlen{w}/data_results.npy',
+        results = '../results/{session_id}/winlen{w}/data_results.npy',
         script = 'filter_results.py'
     output:
-        '../results/{spectrum}/winlen{w}/filtered_patterns.npy'
+        '../results/{session_id}/winlen{w}/filtered_patterns.npy'
     shell:
-        "python {input.script} '{wildcards.spectrum}' '{wildcards.w}'"
+        "python {input.script} '{wildcards.session_id}' '{wildcards.w}'"

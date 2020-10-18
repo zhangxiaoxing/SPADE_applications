@@ -8,8 +8,9 @@ alpha : 0.05
 # Spectrum
 spectra : ['3d#']
 # PSR parameters
-psr_param : [0,0,0]
+# psr_param : [0,0,0]
+psr_param : null
 # Statistical correction
 correction : 'bonferroni'
 # Minimum number of occurrences
-min_occ : 4 
+min_occ : 120 

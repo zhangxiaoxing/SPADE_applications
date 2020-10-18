@@ -25,8 +25,6 @@ def _pattern_spectrum_filter(patterns, ns_signature, spectrum, winlen):
 if __name__ == '__main__':
     # Load parameters dictionary
     binsize = 4 * pq.ms 
-    winlen = 5
-    print(winlen)
     # Filtering parameters
     # Load general parameters
     with open("configfile.yaml", 'r') as stream:
@@ -38,19 +36,19 @@ if __name__ == '__main__':
     # Passing spectrum parameter
     parser = argparse.ArgumentParser(description='Compute spade on artificial data'
                                                  ' for the given winlen and '
-                                                 'spectrum parameters')
-    parser.add_argument('spectrum', metavar='spectrum', type=str,
-                       help='spectrum parameter of the spade function')
+                                                 'sess_id parameters')
+    parser.add_argument('sess_id', metavar='sess_id', type=str,
+                       help='sess_id parameter of the spade function')
     parser.add_argument('winlen', metavar='winlen', type=int,
                        help='winlen parameter of the spade function')
 
     args = parser.parse_args()
-    spectrum = args.spectrum
+    sess_id = args.sess_id
     winlen = args.winlen
     # Filtering parameters for the different window length
     # Loading result
     res_spade, params = \
-        np.load('../results/{}/winlen{}/data_results.npy'.format(spectrum,
+        np.load('../results/{}/winlen{}/data_results.npy'.format(sess_id,
                                                                      winlen),
                 encoding='latin1',allow_pickle=True)
     concepts = res_spade['patterns']
@@ -98,10 +96,10 @@ if __name__ == '__main__':
                                                        min_occ=min_occ)
         patterns = spade.concept_output_to_patterns(
             concepts_psr, winlen, binsize, pval_spectrum)
+        print('Number of significant patterns after psr:', len(concepts_psr))
     else:
         patterns = spade.concept_output_to_patterns(
             concepts_psf, winlen, binsize, pval_spectrum)
-    print('Number of significant patterns after psr:', len(concepts_psf))
 
     # Storing filtered results
     params['alpha'] = alpha
@@ -110,4 +108,4 @@ if __name__ == '__main__':
     params['min_occ'] = min_occ
     np.save(
         '../results/{}/winlen{}/filtered_patterns.npy'.format(
-            spectrum, winlen), [patterns, pval_spectrum, ns_sgnt, params])
+            sess_id, winlen), [patterns, pval_spectrum, ns_sgnt, params])
