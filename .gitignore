@@ -17,6 +17,7 @@ nosetests.xml
 *.tmp*
 .idea
 .snakemake
+*.swp
 
 # Compiled source #
 ###################
@@ -74,3 +75,4 @@ Thumbs.db
 r2g_data/code/multielectrode_grasp
 *.npy
 figures*
+*.out

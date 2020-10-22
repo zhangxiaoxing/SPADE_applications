@@ -3,9 +3,10 @@ import quantities as pq
 
 # Loading parameters
 sess_ids = range(113) 
+# sess_ids = [23]
 
 # Deriving the window lengths to use 
-winlens = [4]
+winlens = [8]
 
 # Rule collecting all the outputs    
 rule all:

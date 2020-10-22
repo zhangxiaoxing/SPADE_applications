@@ -22,8 +22,8 @@ if __name__ == '__main__':
 
     #    min_spikes = data_param['xi']
     #    max_spikes = data_param['xi']
-    min_spikes = 4 
-    max_spikes = 4
+    min_spikes = 10 
+    max_spikes = 10
 
     with open("configfile.yaml", 'r') as stream:
         config = yaml.load(stream, Loader=Loader)
@@ -59,8 +59,8 @@ if __name__ == '__main__':
                             max_spikes=max_spikes,
                             spectrum=spectrum,
                             alpha=1,
-                            min_occ=120,
-                            min_neu=4,
+                            min_occ=10,
+                            min_neu=10,
                             output_format='concepts',
                             psr_param=None)
 

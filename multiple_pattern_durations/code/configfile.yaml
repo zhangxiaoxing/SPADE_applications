@@ -13,4 +13,4 @@ psr_param : null
 # Statistical correction
 correction : 'bonferroni'
 # Minimum number of occurrences
-min_occ : 120 
+min_occ : 10 
