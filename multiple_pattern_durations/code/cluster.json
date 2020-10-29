@@ -9,7 +9,7 @@
     },
       "analyze_data": {
         "time": "72:00:00",
-        "n":128,
+        "n":224,
         "name"      : "{wildcards}.{rule}"
 
     }

@@ -95,11 +95,12 @@ if __name__ == '__main__':
                                                        min_spikes=min_spikes,
                                                        min_occ=min_occ)
         patterns = spade.concept_output_to_patterns(
-            concepts_psr, winlen, binsize, pval_spectrum)
+            concepts_psr, winlen, binsize, pval_spectrum) # notice 't_start' parameter is missing here as of 2020.10.29
+        #TODO correction should be applied before further processing of data.
         print('Number of significant patterns after psr:', len(concepts_psr))
     else:
         patterns = spade.concept_output_to_patterns(
-            concepts_psf, winlen, binsize, pval_spectrum)
+            concepts_psf, winlen, binsize, pval_spectrum) # notice missing 't_start' parameter
 
     # Storing filtered results
     params['alpha'] = alpha
